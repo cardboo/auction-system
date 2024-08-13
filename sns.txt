@@ -1,0 +1,81 @@
+vtp mode off
+
+vlan 20
+ name MGMT2
+vlan 21
+ name STAFF2
+vlan 22
+ name STUDENT2
+
+
+
+ interface GigabitEthernet 1/0
+ description Trunk Link to edge1-b2.campus1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ switchport trunk allowed vlan 20-22
+ load-interval 30
+!
+
+interface GigabitEthernet 0/0
+ description Trunk Link to edge1-b2.campus1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ switchport trunk allowed vlan 20-22
+ load-interval 30
+!
+
+
+interface vlan 1
+ no ip address
+ no ipv6 address 2001:DB8:1:1::4/64
+ shutdown
+!
+
+interface vlan 20
+ description Management VLAN Building 2
+ ip address 172.21.20.3 255.255.255.0
+ ipv6 address 2001:DB8:1:20::3/64
+ load-interval 30
+ no ip redirects
+ no ip proxy-arp
+ no shutdown
+!
+
+interface vlan 21
+ description Staff VLAN Building 2
+ ip address 172.21.21.3 255.255.255.0
+ ipv6 address 2001:DB8:1:21::3/64
+ load-interval 30
+ no ip redirects
+ no ip proxy-arp
+ no shutdown
+
+interface vlan 22
+ description Student VLAN Building 2
+ ip address 172.21.22.3 255.255.255.0
+ ipv6 address 2001:DB8:1:22::3/64
+ load-interval 30
+ no ip redirects
+ no ip proxy-arp
+ no shutdown
+
+
+
+interface range Gi1/0-3
+ description Access Port VLAN 21 STAFF
+ switchport mode access
+ switchport nonegotiate
+ switchport access vlan 21
+ load-interval 30
+!
+
+interface range Gi2/0-3
+ description Access Port VLAN 22 STUDENT
+ switchport mode access
+ switchport nonegotiate
+ switchport access vlan 22
+ load-interval 30
+!
